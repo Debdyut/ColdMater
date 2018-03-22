@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+	<a href="{% url 'index' %}">Back to users list</a>
+	<h3>Name: {{ user.fname }} {{ user.lname }}</h3>
+	<h3>Organization: {{ user.org }}</h3>
+
+{% endblock %}
