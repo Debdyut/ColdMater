@@ -29,6 +29,17 @@ def index(request):
 	})
 
 
+def check_login(request, username, password):    
+    print("Username = " + username)
+    print("Password = " + password)
+    query = 'SELECT * FROM coldmaterhttp_user where username = "' + username + '" and password = "' + password + '"'
+    print(query)
+    result = User.objects.raw(query)    
+    try:
+        return JsonResponse({"success" : "True", "userid" : result[0].userid})    
+    except:
+        return JsonResponse({"success" : "False", "userid" : None})    
+
 """
 def user_detail(request, id):
 	try:
