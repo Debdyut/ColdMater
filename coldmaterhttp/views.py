@@ -33,12 +33,29 @@ def check_login(request, username, password):
     print("Username = " + username)
     print("Password = " + password)
     query = 'SELECT * FROM coldmaterhttp_user where username = "' + username + '" and password = "' + password + '"'
-    print(query)
-    result = User.objects.raw(query)    
-    try:
-        return JsonResponse({"success" : "True", "userid" : result[0].userid})    
+    print(query)    
+    try:        
+        result = User.objects.raw(query)    
+        return JsonResponse({"success" : "True", "userid" : result[0].userid})         
     except:
         return JsonResponse({"success" : "False", "userid" : None})    
+
+#@api_view(['GET', 'POST'])
+@csrf_exempt
+def login_form(request):
+
+    if request.method == 'GET':
+        return render(request, "coldmaterhttp/login_form.html", {"login": "new"})
+
+    elif request.method == 'POST':
+        username = request.POST.get("username")        
+        password = request.POST.get("password")        
+        query = 'SELECT * FROM coldmaterhttp_user where username = "' + username + '" and password = "' + password + '"'        
+        result = User.objects.raw(query)             
+        try:                    
+            return HttpResponse(result[0])         
+        except:
+            return render(request, "coldmaterhttp/login_form.html", {"login": "error"})
 
 """
 def user_detail(request, id):
