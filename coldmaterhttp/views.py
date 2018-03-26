@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
@@ -45,17 +45,39 @@ def check_login(request, username, password):
 def login_form(request):
 
     if request.method == 'GET':
-        return render(request, "coldmaterhttp/login_form.html", {"login": "new"})
+        if request.session.has_key('coldmateruser'):
+            userid = request.session['coldmateruser']
+            return redirect(dashboard, userid = userid)
+        else:
+            return render(request, "coldmaterhttp/login_form.html", {"login": "new"})
 
     elif request.method == 'POST':
         username = request.POST.get("username")        
         password = request.POST.get("password")        
         query = 'SELECT * FROM coldmaterhttp_user where username = "' + username + '" and password = "' + password + '"'        
         result = User.objects.raw(query)             
-        try:                    
-            return HttpResponse(result[0])         
+        try:                                
+            userid = result[0].userid
+            request.session['coldmateruser'] = userid
+            request.session.set_expiry(7*24*60*60)
+            return redirect(dashboard, userid = userid)
+            #return redirect(dashboard, userid = result[0].userid)
         except:
             return render(request, "coldmaterhttp/login_form.html", {"login": "error"})
+
+def logout(request):
+
+    try:
+      del request.session['coldmateruser']      
+    except:
+      pass
+    return redirect(login_form)
+
+def dashboard(request, userid):
+
+    if request.method == 'GET':        
+        return render(request, "coldmaterhttp/dashboard.html", { "userid" : userid })        
+
 
 """
 def user_detail(request, id):
