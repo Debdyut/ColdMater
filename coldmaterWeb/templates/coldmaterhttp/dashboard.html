@@ -12,7 +12,9 @@
 	<script src="{% static 'js/bootstrap.min.js' %}"></script>
 
 	<style>
-		
+		body {
+			background-image: url("{% static 'images/ice_1.jpg' %}");
+		}
 	</style>
 </head>
 <body>
@@ -23,22 +25,99 @@
 	    <span class="navbar-toggler-icon"></span>
 	  </button>
 
-	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-	    <ul class="navbar-nav mr-auto">
-	      <li class="nav-item active">
-	        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-	      </li>
-	      <li class="nav-item">
-	        <a class="nav-link" href="#">Link</a>
-	      </li>	      	      
-	    </ul>
+	  <div class="collapse navbar-collapse" id="navbarSupportedContent">	    
 	    <div class="navbar-left">	      
 	      <a href="{% url 'logout' %}"><button class="btn btn-default" type="button">Logout</button></a>
 	    </div>
 	  </div>
 	</nav>
 
-	Welcome user {{ userid }}!
+	<div class="container-fluid col-lg-4 col-sm-6" >
+		
+			<div class=card style="padding: 20px; margin-top: 20px;">
+		
+				<div style="text-align: center">
+					<h1 style="font-weight: bolder"> Welcome {{ fname }}! </h1>
+				</div>
+
+				<div class="card-header">Machine Info</div>
+			  <div class="card-body" style="font-size: 24px;">
+			  	<span>Machine ID: </span><span style="font-weight: bolder;">CMM0000001</span> <br />
+			    <span>Machine Status: </span><span style="color: green; font-weight: bolder;">Online</span> <br />			    
+			    <span>Ambient Temperature: </span><span style="font-weight: bolder;">31&deg;C</span> <br />
+			    
+			  </div>
+			
+
+			  <div class="card-header">Control Pad</div>
+			  <div class="card-body" style="font-size: 24px;">			    			    
+				<form>
+					<span>Temperature Control: </span>
+				    <label class="radio-inline">
+				      <input type="radio" name="optradio"> <span style="font-size: 20px; color: red; font-weight: bold;">On</span>
+				    </label>
+				    <label class="radio-inline">
+				      <input type="radio" name="optradio" checked> <span style="font-size: 20px; color: green; font-weight: bold;">Off</span>
+				    </label>
+
+				    <br />
+
+				    <span>Set Desired temperature: </span>
+				    <div class="row">
+				    	<div class="container">
+					    	<button  id=minus type="button" class="btn btn-primary" style="margin: 10px; padding: 10px; width: 40px">
+					    		<span style="font-weight: bolder; font-size: 20px; color: white">-</span>
+					    	</button>
+
+					    	<span><span id=temp>10</span>&deg;C</span> 
+
+					    	<button type="button"  id=plus class="btn btn-primary" style="margin: 10px; padding: 10px; width: 40px">
+					    		<span style="font-weight: bolder; font-size: 20px; color: white">+</span>
+					    	</button>
+					    </div>
+				    </div>
+
+				    <button id=submit type=button class="btn btn-primary" style="font-size: 20px; ">Submit</button>
+			    </form>
+                
+			  </div>			
+		</div>
+
+		
+
+	</div>
+
+	<script type="text/javascript">
+		
+		var x = 10;
+
+		$("#minus").click(function() {
+			if(x - 1 <= 5)
+			{
+				alert("Temperature must be greater than 5 degrees");	
+			}
+			else {
+				x -= 1;
+				document.getElementById("temp").innerHTML = x; 
+			}
+		});
+
+		$("#plus").click(function() {
+			if(x + 1 > 20)
+			{
+				alert("Temperature must be lesser than 20 degrees");	
+			}
+			else {
+				x += 1;
+				document.getElementById("temp").innerHTML = x; 
+			}
+		});
+
+		$("#submit").click(function() {
+			alert("Changes updated successfully!"); 
+		});
+
+	</script>
 
 </body>
 </html>

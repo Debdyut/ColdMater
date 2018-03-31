@@ -47,7 +47,8 @@ def login_form(request):
     if request.method == 'GET':
         if request.session.has_key('coldmateruser'):
             userid = request.session['coldmateruser']
-            return redirect(dashboard, userid = userid)
+            fname = request.session['coldmaterfname']
+            return redirect(dashboard, userid = userid, fname = fname)
         else:
             return render(request, "coldmaterhttp/login_form.html", {"login": "new"})
 
@@ -58,9 +59,11 @@ def login_form(request):
         result = User.objects.raw(query)             
         try:                                
             userid = result[0].userid
+            fname = result[0].fname
             request.session['coldmateruser'] = userid
+            request.session['coldmaterfname'] = fname
             request.session.set_expiry(7*24*60*60)
-            return redirect(dashboard, userid = userid)
+            return redirect(dashboard, userid = userid, fname = fname)
             #return redirect(dashboard, userid = result[0].userid)
         except:
             return render(request, "coldmaterhttp/login_form.html", {"login": "error"})
@@ -73,10 +76,10 @@ def logout(request):
       pass
     return redirect(login_form)
 
-def dashboard(request, userid):
+def dashboard(request, userid, fname):
 
     if request.method == 'GET':        
-        return render(request, "coldmaterhttp/dashboard.html", { "userid" : userid })        
+        return render(request, "coldmaterhttp/dashboard.html", { "userid" : userid, "fname": fname })        
 
 
 """
