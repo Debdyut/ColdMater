@@ -11,8 +11,8 @@ from rest_framework.views import APIView
 from rest_framework import mixins
 from rest_framework import generics
 
-from coldmaterhttp.models import User
-from coldmaterhttp.serializers import UserSerializer #, UserSerializer2
+from coldmaterhttp.models import User, Machine
+from coldmaterhttp.serializers import UserSerializer, MachineSerializer #, UserSerializer2
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -20,6 +20,13 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+class MachineViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Machine.objects.all()
+    serializer_class = MachineSerializer
 
 def index(request):
 	users = User.objects.all()
@@ -47,7 +54,8 @@ def login_form(request):
     if request.method == 'GET':
         if request.session.has_key('coldmateruser'):
             userid = request.session['coldmateruser']
-            return redirect(dashboard, userid = userid)
+            fname = request.session['coldmaterfname']
+            return redirect(dashboard, userid = userid, fname = fname)
         else:
             return render(request, "coldmaterhttp/login_form.html", {"login": "new"})
 
@@ -58,9 +66,11 @@ def login_form(request):
         result = User.objects.raw(query)             
         try:                                
             userid = result[0].userid
+            fname = result[0].fname
             request.session['coldmateruser'] = userid
+            request.session['coldmaterfname'] = fname
             request.session.set_expiry(7*24*60*60)
-            return redirect(dashboard, userid = userid)
+            return redirect(dashboard, userid = userid, fname = fname)
             #return redirect(dashboard, userid = result[0].userid)
         except:
             return render(request, "coldmaterhttp/login_form.html", {"login": "error"})
@@ -73,21 +83,10 @@ def logout(request):
       pass
     return redirect(login_form)
 
-def dashboard(request, userid):
+def dashboard(request, userid, fname):
 
     if request.method == 'GET':        
-        user = User.objects.get(userid=userid)    
-        mid = user.machineid
-        mid = mid.replace(' ', '')    
-        parameters = {}
-        parameters["userid"] = userid
-        parameters["user"] = user.fname
-        parameters["machineid"] = mid
-        return render(request, "coldmaterhttp/dashboard.html", parameters)        
-
-def index(request):
-
-    return render(request, "coldmaterhttp/index.html")
+        return render(request, "coldmaterhttp/dashboard.html", { "userid" : userid, "fname": fname })        
 
 """
 def user_detail(request, id):

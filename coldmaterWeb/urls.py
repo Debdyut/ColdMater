@@ -22,15 +22,15 @@ from coldmaterhttp import views
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
+router.register(r'machines', views.MachineViewSet)
 
 urlpatterns = [        
     #url(r'^userList/$', views.user_list4.as_view())
     #url(r'^userList/(?P<pk>[0-9]+)/$', views.user_details4.as_view())
-    url(r'index/', views.index, name='index'),
     url(r'^', include(router.urls)),
     url(r'^user/username=(?P<username>\w+)&password=(?P<password>\w+)/', views.check_login),
     url(r'^login/', views.login_form, name='login_form'),
-    url(r'^dashboard/(?P<userid>\w+)', views.dashboard, name='dashboard'),
+    url(r'^dashboard/(?P<userid>\w+)/(?P<fname>\w+)', views.dashboard, name='dashboard'),
     url(r'^logout/', views.logout, name='logout'),
 	#url(r'^$', views.index, name='index'),
 	#url(r'^user/(?P<id>\d+)/', views.user_detail, name='user_detail'),

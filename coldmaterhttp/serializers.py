@@ -1,10 +1,15 @@
-from coldmaterhttp.models import User
+from coldmaterhttp.models import User, Machine
 from rest_framework import serializers
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'userid', 'fname', 'lname', 'org', 'orgtype', 'username', 'password')
+
+class MachineSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Machine
+        fields = ('id', 'machineid', 'machine_status', 'ambient_temp', 'water_temp', 'set_temp', 'temp_set_by')
 
 """
 class UserSerializer2(serializers.Serializer):
