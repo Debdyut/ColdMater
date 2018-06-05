@@ -28,13 +28,6 @@ class MachineViewSet(viewsets.ModelViewSet):
     queryset = Machine.objects.all()
     serializer_class = MachineSerializer
 
-def index(request):
-	users = User.objects.all()
-	print(len(users))
-	return render(request, 'coldmaterhttp/index.html', {
-		'users': users,
-	})
-
 
 def check_login(request, username, password):    
     print("Username = " + username)
@@ -54,8 +47,8 @@ def login_form(request):
     if request.method == 'GET':
         if request.session.has_key('coldmateruser'):
             userid = request.session['coldmateruser']
-            fname = request.session['coldmaterfname']
-            return redirect(dashboard, userid = userid, fname = fname)
+            machineid = request.session['coldmatermachineid']
+            return redirect(dashboard, userid = userid, machineid = machineid)
         else:
             return render(request, "coldmaterhttp/login_form.html", {"login": "new"})
 
@@ -66,11 +59,11 @@ def login_form(request):
         result = User.objects.raw(query)             
         try:                                
             userid = result[0].userid
-            fname = result[0].fname
+            machineid = result[0].machineid
             request.session['coldmateruser'] = userid
-            request.session['coldmaterfname'] = fname
+            request.session['coldmatermachineid'] = machineid
             request.session.set_expiry(7*24*60*60)
-            return redirect(dashboard, userid = userid, fname = fname)
+            return redirect(dashboard, userid = userid, machineid = machineid)
             #return redirect(dashboard, userid = result[0].userid)
         except:
             return render(request, "coldmaterhttp/login_form.html", {"login": "error"})
@@ -83,10 +76,30 @@ def logout(request):
       pass
     return redirect(login_form)
 
-def dashboard(request, userid, fname):
+@csrf_exempt
+def dashboard(request, userid, machineid):
 
     if request.method == 'GET':        
-        return render(request, "coldmaterhttp/dashboard.html", { "userid" : userid, "fname": fname })        
+        query = 'SELECT * FROM coldmaterhttp_user where userid = "' + userid + '"'
+        users = User.objects.raw(query)
+        query = 'SELECT * FROM coldmaterhttp_machine where machineid = "' + machineid + '"'
+        machines = Machine.objects.raw(query)    
+        return render(request, "coldmaterhttp/dashboard.html", { "user": users[0], "machine": machines[0] })        
+
+    if request.method == 'POST':
+        machine_status = request.POST.get("optradio")
+        set_temp = request.POST.get("set_temp")   
+        #query = 'UPDATE coldmaterhttp_machine SET set_temp = "' + set_temp + '";' #+ ' WHERE machineid = "' + machineid + '"'   
+        obj = Machine.objects.get(machineid=machineid)
+        obj.machine_status = machine_status
+        obj.set_temp = set_temp
+        obj.save()        
+        return redirect(dashboard, userid = userid, machineid = machineid)
+
+def index(request):
+
+    if request.method == 'GET':   
+        return render(request, "coldmaterhttp/index.html")
 
 """
 def user_detail(request, id):

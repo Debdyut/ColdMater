@@ -37,27 +37,28 @@
 			<div class=card style="padding: 20px; margin-top: 20px;">
 		
 				<div style="text-align: center">
-					<h1 style="font-weight: bolder"> Welcome {{ fname }}! </h1>
+					<h1 style="font-weight: bolder"> Welcome {{ user.fname }}! </h1>
 				</div>
 
 				<div class="card-header">Machine Info</div>
 			  <div class="card-body" style="font-size: 24px;">
-			  	<span>Machine ID: </span><span style="font-weight: bolder;">CMM0000001</span> <br />
-			    <span>Machine Status: </span><span style="color: green; font-weight: bolder;">Online</span> <br />			    
-			    <span>Ambient Temperature: </span><span style="font-weight: bolder;">31&deg;C</span> <br />
+			  	<span>Machine ID: </span><span style="font-weight: bolder;">{{ user.machineid }}</span> <br />
+			    <span>Machine Status: </span><span style="color: green; font-weight: bolder;">{{ machine.machine_status }}</span> <br />			    
+					<span>Ambient Temperature: </span><span style="font-weight: bolder;">{{ machine.ambient_temp }}&deg;C</span> <br />
+					<span>Water Temperature: </span><span style="font-weight: bolder;">{{ machine.water_temp }}&deg;C</span> <br />
 			    
 			  </div>
 			
 
 			  <div class="card-header">Control Pad</div>
 			  <div class="card-body" style="font-size: 24px;">			    			    
-				<form>
+				<form action="" method="POST">
 					<span>Temperature Control: </span>
 				    <label class="radio-inline">
-				      <input type="radio" name="optradio"> <span style="font-size: 20px; color: red; font-weight: bold;">On</span>
+				      <input type="radio" name="optradio" value="On"> <span style="font-size: 20px; color: green; font-weight: bold;">On</span>
 				    </label>
 				    <label class="radio-inline">
-				      <input type="radio" name="optradio" checked> <span style="font-size: 20px; color: green; font-weight: bold;">Off</span>
+				      <input type="radio" name="optradio" value="Off" checked> <span style="font-size: 20px; color: red; font-weight: bold;">Off</span>
 				    </label>
 
 				    <br />
@@ -65,6 +66,12 @@
 				    <span>Set Desired temperature: </span>
 				    <div class="row">
 				    	<div class="container">
+
+								<input type="range" name="set_temp" class="custom-range" name="points" min="6" max="15"  value= {{ machine.set_temp }} step="1" onchange="updateTextInput(this.value);">
+								<span id="set_temp_val">{{ machine.set_temp }}&deg;C</span>
+
+
+								<!--
 					    	<button  id=minus type="button" class="btn btn-primary" style="margin: 10px; padding: 10px; width: 40px">
 					    		<span style="font-weight: bolder; font-size: 20px; color: white">-</span>
 					    	</button>
@@ -73,11 +80,13 @@
 
 					    	<button type="button"  id=plus class="btn btn-primary" style="margin: 10px; padding: 10px; width: 40px">
 					    		<span style="font-weight: bolder; font-size: 20px; color: white">+</span>
-					    	</button>
+								</button>
+								-->
+
 					    </div>
 				    </div>
 
-				    <button id=submit type=button class="btn btn-primary" style="font-size: 20px; ">Submit</button>
+				    <button id=submit type=submit class="btn btn-primary" style="font-size: 20px; ">Submit</button>
 			    </form>
                 
 			  </div>			
@@ -113,9 +122,16 @@
 			}
 		});
 
+		function updateTextInput(val) {
+			document.getElementById('set_temp_val').innerHTML=val;
+			document.getElementById('set_temp_val').innerHTML+= "&deg;C"; 
+		}
+
+		/*
 		$("#submit").click(function() {
 			alert("Changes updated successfully!"); 
 		});
+		*/
 
 	</script>
 
