@@ -26,6 +26,7 @@ router.register(r'users', views.UserViewSet)
 urlpatterns = [        
     #url(r'^userList/$', views.user_list4.as_view())
     #url(r'^userList/(?P<pk>[0-9]+)/$', views.user_details4.as_view())
+    url(r'index/', views.index, name='index'),
     url(r'^', include(router.urls)),
     url(r'^user/username=(?P<username>\w+)&password=(?P<password>\w+)/', views.check_login),
     url(r'^login/', views.login_form, name='login_form'),

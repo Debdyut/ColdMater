@@ -8,8 +8,10 @@
 	<title>Dashboard</title>	
 
 	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap-toggle-master/css/bootstrap-toggle.css' %}">
 	<script src="{% static 'js/jquery.min.js' %}"></script>
 	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'bootstrap-toggle-master/js/bootstrap-toggle.min.js' %}"></script>
 
 	<style>
 		
@@ -36,9 +38,38 @@
 	      <a href="{% url 'logout' %}"><button class="btn btn-default" type="button">Logout</button></a>
 	    </div>
 	  </div>
-	</nav>
+	</nav>		
 
-	Welcome user {{ userid }}!
+	<div style="text-align: center;">	
+		<h1 style="padding: 10px;">Welcome {{ user }}!</h1>
+	</div>
+
+	<div class="container col-lg-6 col-sm-8 col-xs-12">
+		<div class="card">
+			<div class=row style="padding: 10px; padding-left: 30px;">
+				<div class="col-xs-4">
+					<b>Machine ID:</b>
+				</div> 
+				<div class="col-xs-8" style="padding-left: 10px;">
+					{{machineid}}
+				</div>
+			<div>
+
+			<br/>
+
+			<div class=row style="padding: 10px; padding-left: 30px;">
+				<div class="col-xs-4">
+					<b>Power:</b>
+				</div> 
+				<div class="col-xs-8" style="padding-left: 10px;">
+					<input type="checkbox" checked data-toggle="toggle">
+				</div>
+			<div>
+
+
+		</div>
+	</div>
+
 
 </body>
 </html>

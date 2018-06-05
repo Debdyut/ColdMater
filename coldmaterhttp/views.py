@@ -76,8 +76,18 @@ def logout(request):
 def dashboard(request, userid):
 
     if request.method == 'GET':        
-        return render(request, "coldmaterhttp/dashboard.html", { "userid" : userid })        
+        user = User.objects.get(userid=userid)    
+        mid = user.machineid
+        mid = mid.replace(' ', '')    
+        parameters = {}
+        parameters["userid"] = userid
+        parameters["user"] = user.fname
+        parameters["machineid"] = mid
+        return render(request, "coldmaterhttp/dashboard.html", parameters)        
 
+def index(request):
+
+    return render(request, "coldmaterhttp/index.html")
 
 """
 def user_detail(request, id):
