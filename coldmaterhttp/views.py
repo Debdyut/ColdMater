@@ -36,9 +36,9 @@ def check_login(request, username, password):
     print(query)    
     try:        
         result = User.objects.raw(query)    
-        return JsonResponse({"success" : "True", "userid" : result[0].userid})         
+        return JsonResponse({"success" : "True", "userid" : result[0].userid, "machineid" : result[0].machineid})         
     except:
-        return JsonResponse({"success" : "False", "userid" : None})    
+        return JsonResponse({"success" : "False", "userid" : None, "machineid" : None})    
 
 #@api_view(['GET', 'POST'])
 @csrf_exempt
@@ -100,6 +100,22 @@ def index(request):
 
     if request.method == 'GET':   
         return render(request, "coldmaterhttp/index.html")
+
+def update_temps(request, machineid, ambt, watert):
+
+    if request.method == 'GET':
+        print(machineid, ambt, watert)
+        obj = Machine.objects.get(machineid=machineid)
+        obj.ambient_temp = ambt
+        obj.water_temp = watert
+        obj.save()     
+        query = 'SELECT * FROM coldmaterhttp_machine where machineid = "' + machineid + '"'
+        try:        
+            machines = Machine.objects.raw(query)
+            return JsonResponse({"success" : "True", "set_temp" : machines[0].set_temp})         
+        except:
+            return JsonResponse({"success" : "False", "set_temp" : None})           
+        return HttpResponse("OK")
 
 """
 def user_detail(request, id):

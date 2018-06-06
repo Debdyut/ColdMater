@@ -1,1 +1,58 @@
-jlkdajsdlkajskl
+{% load staticfiles %}
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+	<title>Home</title>	
+
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+	<style>
+		
+	</style>
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	  <a class="navbar-brand" href="#">ARTICOOL</a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>	  
+	</nav>
+
+	<div class="row" style="background-color: #e1f5fe; text-align: center">		
+		<div class="container">
+			<h1>Why players use ice-baths?</h1>
+			<div class="row">
+				<div class="col">
+					<span style="background-color: blue; border-radius: 100%; color: white; width: 70px; height: 50px; padding: 10px;">
+						1
+					</span> <br/>
+					<h3>FASTER RECOVERY</h3>
+					<div>
+						Ice baths and cold water therapy helps reduce lactic acid build up, reduces swelling, 
+						and normalize adrenaline production so the body can recover faster than normal.
+					</div>
+				</div>
+				<div class="col">
+					<h3>LESS PAIN!</h3>
+					<div>
+						Ice baths and cold water therapy helps reduce Delayed Onset Muscle Soreness (DOMS) 
+						by helping reduce the inflammation and muscle spasm that causes it.
+					</div>
+				</div>
+				<div class="col">
+					<h3>FASTER INJURY RECOVERY!</h3>
+					<div>
+						Using a cold tub or ice bath reduces injury recovery time. Cold therapy is already used to treat acute sport injuries. 
+						A Cold Tub is much better than an ice pack or cold compress in many ways.
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

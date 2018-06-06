@@ -29,6 +29,7 @@ urlpatterns = [
     #url(r'^userList/(?P<pk>[0-9]+)/$', views.user_details4.as_view())
     url(r'^$', views.index, name='index'),
     url(r'^', include(router.urls)),
+    url(r'machine_info/(?P<machineid>\w+)/(?P<ambt>\d+)/(?P<watert>\d+)', views.update_temps, name = "update_temps"),
     url(r'^user/username=(?P<username>\w+)&password=(?P<password>\w+)/', views.check_login),
     url(r'^login/', views.login_form, name='login_form'),
     url(r'^dashboard/(?P<userid>\w+)/(?P<machineid>\w+)', views.dashboard, name='dashboard'),
