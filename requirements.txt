@@ -20,7 +20,7 @@ gunicorn==19.6.0
 h5cube==0.3
 html5lib==0.999999999
 httpie==0.9.9
-httplib2==0.10.3
+httplib2==0.19.0
 idna==2.6
 psycopg2==2.7.2
 ipykernel==4.6.1
